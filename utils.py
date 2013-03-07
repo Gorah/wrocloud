@@ -28,8 +28,10 @@ def generate_share_url(path):
         )
 
 def get_object_list(path):
-    raise NOTFUCKINGIMPLEMENTEDERROR,YO
-    path = "%s%s/" % (settings.OBJECT_STORE_URL,
-                          settings.TENANT_ID)
-    handle = urllib2.urlopen(req)
+    path = "%s/testainer/" % (settings.OBJECT_STORE_URL)
+    print path
+    req = urllib2.Request(path)
+    req.add_header("Content-type", "application/json")
+    req.add_header("X-Auth-Token", get_auth_token())
+    response = urllib2.urlopen(req)
     return response.read()
