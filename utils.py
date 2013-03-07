@@ -3,7 +3,7 @@ from django.conf import settings
 import hmac
 from hashlib import sha1
 from time import time
-
+import urllib2
 
 def generate_form_post_key(path, redirect):
     path = "/v1/%s/testainer/%s/" % (settings.TENANT_ID, path)
@@ -26,3 +26,10 @@ def generate_share_url(path):
         settings.TENANT_ID, settings.HP_ACCESS_KEY,
         hmac.new(settings.HP_SECRET_KEY, hmac_body, sha1).hexdigest()
         )
+
+def get_object_list(path):
+    raise NOTFUCKINGIMPLEMENTEDERROR,YO
+    path = "%s%s/" % (settings.OBJECT_STORE_URL,
+                          settings.TENANT_ID)
+    handle = urllib2.urlopen(req)
+    return response.read()
