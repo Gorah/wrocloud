@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container">
+  <script>
+    alert(' {{ success }} ');
+  </script>
+  <div class="hero-unit">
+    {% if success %}
+    <p>Your file was successfully loaded!</p>
+    {% else %}
+    <p>Oh No! Something went wrong, please go back and try again!</p>
+    {% endif %}
+  </div>
+</div>
+{% endblock content %}

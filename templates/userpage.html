@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container">
+  <div class="hero-unit">
+    <h3>Wrocloud File Upload</h3>
+    <form action="https://region-b.geo-1.objects.hpcloudsvc.com/v1/{{ tenant_id }}/testainer/{{ user_id }}/" method="POST"
+          enctype="multipart/form-data">
+      <input type="hidden" name="redirect" value="{{ redirect_url }}" />
+      <input type="hidden" name="max_file_size" value="1073741824" />
+      <input type="hidden" name="max_file_count" value="10" />
+      <input type="hidden" name="expires" value="2147483647" />
+      <input type="hidden" name="signature" value="{{ signature }}" />
+      <input type="file" name="file1" />
+      <input type="submit" />
+    </form>
+  </div>
+</div>
+
+{% endblock content %}
