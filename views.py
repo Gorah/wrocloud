@@ -4,7 +4,9 @@ from django.conf import settings
 from django.shortcuts import render_to_response
 from django.template import RequestContext
 
-from wrocloud.utils import generate_form_post_key, get_object_list
+from wrocloud.hpcloud_auth.authentication import (generate_form_post_key,
+                                                  get_object_list,
+                                                  generate_share_url)
 
 
 def login(request):
@@ -12,14 +14,18 @@ def login(request):
 
 def userpage(request):
     user_id = "aaron"
+    stuff = [(generate_share_url(item), item)
+             for item in filter(lambda x: len(x) > 0,
+                                get_object_list(user_id))]
+    full_uri = request.build_absolute_uri("/stored/")
     return render_to_response(
         "userpage.html",
         {
             "tenant_id": settings.TENANT_ID,
-            "signature": generate_form_post_key(user_id, "http://16.55.133.228:8080/stored/"),
-            "redirect_url": "http://16.55.133.228:8080/stored/",
+            "signature": generate_form_post_key(user_id, full_uri),
+            "redirect_url":  full_uri,
             "user_id": user_id,
-            "stuff": get_object_list(user_id)
+            "stuff": stuff
             },
         RequestContext(request))
 

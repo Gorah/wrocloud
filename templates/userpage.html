@@ -15,6 +15,12 @@
       <input type="submit" />
     </form>
   </div>
-</div>
-{{ stuff }}
+  <div class="hero-unit">
+    <h3>Your files</h3>
+    <ul>
+      {% for link in stuff %}
+      <li><a href="{{ link.0 }}">{{ link.1 }}</a></li>
+      {% endfor %}
+    </ul>
+  </div>
 {% endblock content %}
