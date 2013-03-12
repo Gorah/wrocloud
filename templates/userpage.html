@@ -1,6 +1,7 @@
 {% extends "base.html" %}
 
 {% block content %}
+{% load hpcloud %}
 <div class="container">
   <div class="hero-unit">
     <h3>Wrocloud File Upload</h3>
@@ -17,6 +18,7 @@
   </div>
   <div class="hero-unit">
     <h3>Your files</h3>
+	<a href="{% cdn testainer .emacs https %}">File</a>
     <ul>
       {% for link in stuff %}
       <li><a href="{{ link.0 }}">{{ link.1 }}</a></li>
