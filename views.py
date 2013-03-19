@@ -13,7 +13,7 @@ def login(request):
     return HttpResponseRedirect("/user/")
 
 def userpage(request):
-    user_id = "testainer/"
+    user_id = "testainer"
     stuff = [(generate_share_url(user_id + item), item)
              for item in filter(lambda x: len(x) > 0,
                                 get_object_list(user_id))]
