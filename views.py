@@ -33,9 +33,10 @@ def stored(request):
     if request.GET.get('status') == '201':
         return HttpResponseRedirect("/success_upload/")
     else:
-        return HttpResponseRedirect("/fail_upload/")
+        return HttpResponseRedirect("/fail_upload/?=" + request.GET.get('message'))
 
-def direct_to_template(request, template=None, success=False):
+def direct_to_template(request, template=None, **kwargs):
+    print kwargs
     return render_to_response(
-        template, {"success": success},
+        template, {"success": kwargs['success']},
         RequestContext(request))

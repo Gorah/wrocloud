@@ -1,5 +1,4 @@
 from django.conf.urls import patterns, include, url
-from django.views.generic.simple import direct_to_template
 
 from wrocloud import views
 
@@ -9,12 +8,12 @@ from wrocloud import views
 
 urlpatterns = patterns(
     '',
-    url(r'^$', direct_to_template, {"template":"index.html"}),
-    url(r'^about/?$', direct_to_template, {"template": "about.html"}),
-    url(r'^fail_upload/?$', direct_to_template, 
-        {"template": "post_upload.html", "extra_context":{"success": False}},),
-    url(r'^success_upload/?$', direct_to_template, 
-        {"template": "post_upload.html", "extra_context":{"success": True}},),
+    url(r'^$', views.direct_to_template, {"template":"index.html"}),
+    url(r'^about/?$', views.direct_to_template, {"template": "about.html"}),
+    url(r'^fail_upload/?$', views.direct_to_template,
+        {"template": "post_upload.html", "success": False}),
+    url(r'^success_upload/?$', views.direct_to_template,
+        {"template": "post_upload.html", "success": True}),
     url(r'^stored/', views.stored),
     url(r'^login/?$', views.login),
     url(r'^user/?$', views.userpage),
