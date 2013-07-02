@@ -14,7 +14,7 @@ def login(request):
 
 def userpage(request):
     user_id = "testainer"
-    stuff = [(generate_share_url(user_id + item), item)
+    stuff = [(generate_share_url("%s/%s" % (user_id, item)), item)
              for item in filter(lambda x: len(x) > 0,
                                 get_object_list(user_id))]
     full_uri = request.build_absolute_uri("/stored/")
@@ -36,7 +36,6 @@ def stored(request):
         return HttpResponseRedirect("/fail_upload/?=" + request.GET.get('message'))
 
 def direct_to_template(request, template=None, **kwargs):
-    print kwargs
     return render_to_response(
-        template, {"success": kwargs['success']},
+        template, {"success": kwargs.get('success')},
         RequestContext(request))
