@@ -44,7 +44,7 @@ def userpage(request, directory=None):
         )
     user_id += "/" + directory if directory else ""
     full_uri = request.build_absolute_uri(
-        "/stored/%s/" % directory if directory else "/stored/"
+        "/stored/%s" % directory + "/" if directory else ""
     )
     return render_to_response(
         "userpage.html",
