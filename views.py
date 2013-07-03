@@ -59,17 +59,29 @@ def userpage(request, directory=None):
         RequestContext(request))
 
 def stored(request, directory=None):
+    '''Stored is the endpoint which is redirected to when we've uploaded a
+    new file into the Object Store via a Form Post. The underlying HPCloud
+    bindings shouldn't take care of this since it's a front-end related
+    thing.
+
+    stored will take care of updating our local cache of metadata when
+    we're adding files.
+    '''
     if request.GET.get('status') == '201':
         filename_unclean = request.COOKIES.get("lastfile")
         if not filename_unclean:
             raise Http404
+        # TODO: Unfuck this code.
         filename = ntpath.split(urllib.unquote(filename_unclean).decode("utf8"))[-1]
         mimetype = mimetypes.guess_type(filename)
+        # Disgusting crap ends here ------
         StoredObject.get_or_create(
             container=settings.OBJECT_STORE_CONTAINER,
             name=directory+filename,
             content_type="" if not mimetype[0] else mimetype[0],
-            url=generate_share_url(settings.OBJECT_STORE_CONTAINER + "/" + directory+filename)
+            url=generate_share_url(
+                "%s/%s" % (settings.OBJECT_STORE_CONTAINER, directory+filename)
+            )
         ).save()
         return HttpResponseRedirect("/success_upload/")
     else:
