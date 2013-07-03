@@ -88,16 +88,27 @@ def stored(request, directory=None):
         return HttpResponseRedirect("/fail_upload/?=" + request.GET.get('message'))
 
 def direct_to_template(request, template=None, **kwargs):
+    '''This is a remake of a helper which used to be in the django
+    standard distribution. Simply returns a template with a single
+    piece of context.
+    '''
     return render_to_response(
         template, {"success": kwargs.get('success')},
         RequestContext(request))
 
 def create_directory(request):
+    '''Create directory will funnily enough create a new directory in the
+    HPCloud ObjectStore. The resulting directory will be 'invisible'
+    on the HPCloud objectstore interface but it will exist when the
+    container is queried so we store a local entry for this directory
+    so we can display it later.
+    '''
     dir = request.POST.get("directory")
     if not dir:
         raise Http404
     status = objectstore.create_directory(dir)
-    if status == 201:
+    if status == 201: # TODO: see if there's a module for all these
+                      # magic numbers.
         StoredObject(
             container=settings.OBJECT_STORE_CONTAINER,
             name=dir,
