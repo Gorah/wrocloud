@@ -47,10 +47,26 @@
       </div>
       <div id="controls-span" class="span3">
         <h3>Controls</h3>
-        <input class="btn" onclick="newdirectory()" value="New Dir"/>
+        <input class="btn" onclick="newdirectory()" value="Create Directory"/>
+        <input class="btn" onclick="deletedirectory()" value="Delete Directory"/>
       </div>
     </div>
   </div>
+
+  <div id="create_new_dir" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="modal_label" aria-hidden="true">
+    <div class="modal-header">
+      <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+      <h3 id="modal_label">Create New Directory</h3>
+    </div>
+    <div class="modal-body">
+      <input id="directory-name-text" type="text" placeholder="Directory Name" />
+    </div>
+    <div class="modal-footer">
+      <button class="btn" data-dismiss="modal" aria-hidden="true">Close</button>
+      <button onclick="createdirectory()" class="btn btn-primary">Create</button>
+    </div>
+  </div>
+
 {% block javascript %}
 <script src="{{ STATIC_URL }}js/userpage.js"></script>
 {% endblock javascript %}

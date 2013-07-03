@@ -54,3 +54,17 @@ def direct_to_template(request, template=None, **kwargs):
     return render_to_response(
         template, {"success": kwargs.get('success')},
         RequestContext(request))
+
+def create_directory(request):
+    dir = request.POST.get("directory")
+    if not dir:
+        raise Http404
+    status = objectstore.create_directory(dir)
+    if status == 201:
+        StoredObject(
+            container=settings.OBJECT_STORE_CONTAINER,
+            name=dir,
+            content_type="application/directory"
+        ).save()
+        return HttpResponse(simplejson.dumps({"status": status}))
+    raise HttpResponseServerError
