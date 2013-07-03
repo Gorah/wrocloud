@@ -20,6 +20,7 @@ from wrocloud.objectstore.models import StoredObject
 
 
 def login(request):
+    # TODO: @gorah should implement this.
     return HttpResponseRedirect("/user/")
 
 @ensure_csrf_cookie
