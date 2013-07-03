@@ -35,11 +35,17 @@ def userpage(request, directory=None):
     '''
     user_id = settings.OBJECT_STORE_CONTAINER
     if directory:
-        stuff = StoredObject.objects.filter(container=user_id, name__startswith=directory + "/")
+        stuff = StoredObject.objects.filter(
+            container=user_id, name__startswith=directory + "/"
+        )
     else:
-        stuff = StoredObject.objects.filter(container=user_id, content_type="application/directory")
+        stuff = StoredObject.objects.filter(
+            container=user_id, content_type="application/directory"
+        )
     user_id += "/" + directory if directory else ""
-    full_uri = request.build_absolute_uri("/stored/%s/" % directory if directory else "/stored/")
+    full_uri = request.build_absolute_uri(
+        "/stored/%s/" % directory if directory else "/stored/"
+    )
     return render_to_response(
         "userpage.html",
         {
