@@ -24,7 +24,7 @@ function createddirectory() {
 }
 
 function setcookieandsubmit() {
-    $.cookie("lastfile", $("#filename").val());
+    $.cookie("lastfile", $("#filename").val(), {path: "/"});
     console.log($("#filename").val());
     console.log($("#fileupload").submit());
 }
