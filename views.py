@@ -28,7 +28,7 @@ def userpage(request, directory=None):
             "redirect_url":  full_uri,
             "user_id": user_id,
             "stuff": stuff
-            },
+        },
         RequestContext(request))
 
 def stored(request):
