@@ -31,12 +31,23 @@
             </a>
           </li>
           {% else %}
-          <li><a href="{{ object.url }}">{{ object.name }}</a></li>
+          <li>
+            <a class="btn btn-small"
+               href="{{ object.url }}">
+              <i class="icon-file"></i>
+              {{ object.name }}
+            </a>
+          </li>
           {% endif %}
           {% endfor %}
         </ul>
       </div>
-      <div class="span4">
+      <div id="metadata-span" class="span3">
+        <h3>File Data</h3>
+      </div>
+      <div id="controls-span" class="span3">
+        <h3>Controls</h3>
+        <input class="btn" onclick="newdirectory()" value="New Dir"/>
       </div>
     </div>
   </div>
