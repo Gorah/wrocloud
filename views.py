@@ -1,4 +1,8 @@
 import simplejson
+import urllib
+import ntpath
+import mimetypes
+mimetypes.init()
 
 from django.http import (HttpResponseRedirect,
                          HttpResponse, Http404,
@@ -27,10 +31,7 @@ def userpage(request, directory=None):
     else:
         stuff = StoredObject.objects.filter(container=user_id, content_type="application/directory")
     user_id += "/" + directory if directory else ""
-    full_uri = request.build_absolute_uri("/stored/%s/" % \
-                                          (
-                                              directory if directory else "/stored/",
-                                          ))
+    full_uri = request.build_absolute_uri("/stored/%s/" % directory if directory else "/stored/")
     return render_to_response(
         "userpage.html",
         {
@@ -45,7 +46,17 @@ def userpage(request, directory=None):
 
 def stored(request, directory=None):
     if request.GET.get('status') == '201':
-        print request.COOKIES.get("lastfile")
+        filename_unclean = request.COOKIES.get("lastfile")
+        if not filename_unclean:
+            raise Http404
+        filename = ntpath.split(urllib.unquote(filename_unclean).decode("utf8"))[-1]
+        mimetype = mimetypes.guess_type(filename)
+        StoredObject.get_or_create(
+            container=settings.OBJECT_STORE_CONTAINER,
+            name=directory+filename,
+            content_type="" if not mimetype[0] else mimetype[0],
+            url=generate_share_url(settings.OBJECT_STORE_CONTAINER + "/" + directory+filename)
+        ).save()
         return HttpResponseRedirect("/success_upload/")
     else:
         return HttpResponseRedirect("/fail_upload/?=" + request.GET.get('message'))
