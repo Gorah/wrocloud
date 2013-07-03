@@ -5,8 +5,8 @@ from django.shortcuts import render_to_response
 from django.template import RequestContext
 
 from django_hpcloud.authentication import (generate_form_post_key,
-                                                  get_object_list,
-                                                  generate_share_url)
+                                           get_object_list,
+                                           generate_share_url)
 
 
 def login(request):
