@@ -14,7 +14,7 @@ urlpatterns = patterns(
         {"template": "post_upload.html", "success": False}),
     url(r'^success_upload/?$', views.direct_to_template,
         {"template": "post_upload.html", "success": True}),
-    url(r'^stored/', views.stored),
+    url(r'^stored/(?P<directory>.+)?', views.stored),
     url(r'^login/?$', views.login),
     url(r'^user/(?P<directory>.+)?$', views.userpage),
     )
