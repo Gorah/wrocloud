@@ -8,15 +8,17 @@ from django_hpcloud.authentication import (generate_form_post_key,
                                            get_object_list,
                                            generate_share_url)
 
+from wrocloud.objectstore.models import StoredObject
 
 def login(request):
     return HttpResponseRedirect("/user/")
 
-def userpage(request):
-    user_id = "testainer"
-    stuff = [(generate_share_url("%s/%s" % (user_id, item)), item)
-             for item in filter(lambda x: len(x) > 0,
-                                get_object_list(user_id))]
+def userpage(request, directory=None):
+    user_id = settings.OBJECT_STORE_CONTAINER
+    if directory:
+        stuff = StoredObject.objects.filter(container=user_id, name__startswith=directory + "/")
+    else:
+        stuff = StoredObject.objects.filter(container=user_id, content_type="application/directory")
     full_uri = request.build_absolute_uri("/stored/")
     return render_to_response(
         "userpage.html",
