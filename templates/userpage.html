@@ -18,10 +18,13 @@
   </div>
   <div class="hero-unit">
     <h3>Your files</h3>
-	<a href="{% cdn testainer .emacs https %}">File</a>
     <ul>
-      {% for link in stuff %}
-      <li><a href="{{ link.0 }}">{{ link.1 }}</a></li>
+      {% for object in stuff %}
+      {% if object.content_type == "application/directory" %}
+        <li><a href="{% url 'wrocloud.views.userpage' directory=object.name %}"> {{ object.name }}</a></li>
+      {% else %}
+        <li><a href="{{ object.url }}">{{ object.name }}</a></li>
+      {% endif %}
       {% endfor %}
     </ul>
   </div>
