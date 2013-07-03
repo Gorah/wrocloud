@@ -17,15 +17,28 @@
     </form>
   </div>
   <div class="hero-unit">
-    <h3>Your files</h3>
-    <ul>
-      {% for object in stuff %}
-      {% if object.content_type == "application/directory" %}
-        <li><a href="{% url 'wrocloud.views.userpage' directory=object.name %}"> {{ object.name }}</a></li>
-      {% else %}
-        <li><a href="{{ object.url }}">{{ object.name }}</a></li>
-      {% endif %}
-      {% endfor %}
-    </ul>
+    <div class="container">
+      <div class="span4">
+        <h3>Your files</h3>
+        <ul>
+          {% for object in stuff %}
+          {% if object.content_type == "application/directory" %}
+          <li>
+            <a class="btn btn-small"
+               href="{% url 'wrocloud.views.userpage' directory=object.name %}">
+              <i class="icon-folder-open">
+              </i> {{ object.name }}</a></li>
+          {% else %}
+          <li><a href="{{ object.url }}">{{ object.name }}</a></li>
+          {% endif %}
+          {% endfor %}
+        </ul>
+      </div>
+      <div class="span4">
+      </div>
+    </div>
   </div>
+{% block javascript %}
+<script src="{{ STATIC_URL }}js/userpage.js"></script>
+{% endblock javascript %}
 {% endblock content %}
