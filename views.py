@@ -25,6 +25,14 @@ def login(request):
 
 @ensure_csrf_cookie
 def userpage(request, directory=None):
+    '''userpage serves up the base page for the lists of containers and
+    the files that they contain.
+
+    It will take an optional directory which means that this page
+    helpfully is also used for subdirectories. Without the directory
+    argument we just serve up the base set of folders in the Wrocloud
+    container.
+    '''
     user_id = settings.OBJECT_STORE_CONTAINER
     if directory:
         stuff = StoredObject.objects.filter(container=user_id, name__startswith=directory + "/")
