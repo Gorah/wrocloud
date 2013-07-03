@@ -16,5 +16,5 @@ urlpatterns = patterns(
         {"template": "post_upload.html", "success": True}),
     url(r'^stored/', views.stored),
     url(r'^login/?$', views.login),
-    url(r'^user/?$', views.userpage),
+    url(r'^user/(?P<directory>.+)?$', views.userpage),
     )
