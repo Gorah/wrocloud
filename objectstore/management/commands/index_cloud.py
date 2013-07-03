@@ -1,7 +1,6 @@
 from django.core.management.base import BaseCommand, CommandError
 from django_hpcloud.authentication import (get_object_list,
-                                           generate_share_url,
-                                           get_container_data)
+                                           generate_share_url)
 from wrocloud.objectstore.models import StoredObject
 
 class Command(BaseCommand):
@@ -10,7 +9,7 @@ class Command(BaseCommand):
         '''implementation'''
         storedobjects = []
         for obj in get_object_list("/"):
-            objdata = get_container_data(obj["name"])
+            objdata = get_object_list(obj["name"])
             for subobj in objdata:
                 storedobjects.append(
                     StoredObject(
