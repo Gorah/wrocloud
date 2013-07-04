@@ -10,6 +10,7 @@ urlpatterns = patterns(
     '',
     url(r'^$', views.direct_to_template, {"template":"index.html"}),
     url(r'^about/?$', views.direct_to_template, {"template": "about.html"}),
+    url(r'^contact/?$', views.direct_to_template, {"template": "contact.html"}),
     url(r'^fail_upload/?$', views.direct_to_template,
         {"template": "post_upload.html", "success": False}),
     url(r'^success_upload/?$', views.direct_to_template,
