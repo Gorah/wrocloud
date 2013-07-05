@@ -20,7 +20,7 @@ from django_hpcloud.authentication import (generate_form_post_key,
 from wrocloud.objectstore.models import StoredObject
 
 
-def userlogin(request, err_msg=None):
+def userlogin(request):
     username = request.POST['username']
     password = request.POST['password']
     user = authenticate(username=username, password=password)
