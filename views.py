@@ -48,6 +48,7 @@ def userpage(request, directory=None):
     argument we just serve up the base set of folders in the Wrocloud
     container.
     '''
+    # TODO: A user's path should be prefixed with their username.
     user_id = settings.OBJECT_STORE_CONTAINER
     if directory:
         stuff = StoredObject.objects.filter(
