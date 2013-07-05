@@ -40,6 +40,12 @@
             </ul>
             {% block navbar_extra %}
             {% endblock navbar_extra %}
+            <form action="/login/" method="POST" class="navbar-form pull-right">
+              {% csrf_token %}
+              <input id="userID" class="span2" type="text" placeholder="Email">
+              <input id="userPassword"class="span2" type="password" placeholder="Password">
+              <button type="submit" class="btn">Sign in</button>
+            </form>
           </div><!--/.nav-collapse -->
         </div>
       </div>
