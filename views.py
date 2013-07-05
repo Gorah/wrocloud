@@ -21,6 +21,7 @@ from django_hpcloud.authentication import (generate_form_post_key,
 from wrocloud.objectstore.models import StoredObject
 
 
+
 def userlogin(request):
     '''Logs user in or redirects to a page with error message'''
     username = request.POST['username']
