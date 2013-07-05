@@ -38,8 +38,12 @@
               <li><a href="/about/">About</a></li>
               <li><a href="/contact/">Contact</a></li>
             </ul>
-            {% block navbar_extra %}
-            {% endblock navbar_extra %}
+            <form action="/login/" method="POST" class="navbar-form pull-right">
+              {% csrf_token %}
+              <input name="username" class="span2" type="text" placeholder="Email">
+              <input name="password"class="span2" type="password" placeholder="Password">
+              <button type="submit" class="btn">Sign in</button>
+            </form>
           </div><!--/.nav-collapse -->
         </div>
       </div>
