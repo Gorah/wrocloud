@@ -7,6 +7,7 @@ mimetypes.init()
 from django.http import (HttpResponseRedirect, HttpResponse, Http404,
                          HttpResponseServerError)
 from django.conf import settings
+from django.contrib.auth import authenticate, login
 from django.shortcuts import render_to_response
 from django.template import RequestContext
 from django.views.decorators.csrf import ensure_csrf_cookie
@@ -19,7 +20,7 @@ from django_hpcloud.authentication import (generate_form_post_key,
 from wrocloud.objectstore.models import StoredObject
 
 
-def login(request, err_msg=None):
+def userlogin(request, err_msg=None):
     username = request.POST['username']
     password = request.POST['password']
     user = authenticate(username=username, password=password)
