@@ -20,8 +20,8 @@ from wrocloud.objectstore.models import StoredObject
 
 
 def login(request, err_msg=None):
-    username = request.POST['userID']
-    password = request.POST['userPassword']
+    username = request.POST['username']
+    password = request.POST['password']
     user = authenticate(username=username, password=password)
     if user is not None:
         if user.is_active:
