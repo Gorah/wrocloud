@@ -24,15 +24,6 @@
         <h3>Your files</h3>
         <ul>
           {% for object in stuff %}
-          {% if object.content_type == "application/directory" %}
-          <li>
-            <a class="btn btn-small"
-               href="{% url 'wrocloud.views.userpage' directory=object.name %}">
-              <i class="icon-folder-open"></i>
-              {{ object.name }}
-            </a>
-          </li>
-          {% else %}
           <li>
             <a class="btn btn-small"
                href="{{ object.url }}">
@@ -40,7 +31,15 @@
               {{ object.name }}
             </a>
           </li>
-          {% endif %}
+          {% endfor %}
+          {% for object in directories %}
+          <li>
+            <a class="btn btn-small"
+               href="{% url 'wrocloud.views.userpage' directory=object.name %}">
+              <i class="icon-folder-open"></i>
+              {{ object.name }}
+            </a>
+          </li>
           {% endfor %}
         </ul>
       </div>

@@ -57,14 +57,27 @@ def userpage(request, directory=None):
     '''
     # TODO: A user's path should be prefixed with their username.
     user_id = settings.OBJECT_STORE_CONTAINER
+    print directory
     if directory:
         stuff = StoredObject.objects.filter(
-            container=request.user.username, name__startswith=directory + "/"
+            container=request.user.username,
+            dirparent=directory + "/"
+        ).exclude(
+            content_type="application/directory"
+        )
+        directories = StoredObject.objects.filter(
+            container=request.user.username,
+            content_type="application/directory",
+            dirparent=directory
         )
     else:
-        stuff = StoredObject.objects.filter(
-            container=request.user.username, content_type="application/directory"
+        directories = StoredObject.objects.filter(
+            container=request.user.username,
+            content_type="application/directory"
+        ).exclude(
+            is_subdir=True
         )
+        stuff = None
     user_id += "/" + directory if directory else ""
     full_uri = request.build_absolute_uri(
         "/stored/%s" % directory + "/" if directory else ""
@@ -78,6 +91,7 @@ def userpage(request, directory=None):
             "redirect_url":  full_uri,
             "user_id": user_id,
             "stuff": stuff,
+            "directories": directories,
             "path": directory
         },
         RequestContext(request))
@@ -102,6 +116,7 @@ def stored(request, directory=None):
         # Disgusting crap ends here ------
         obj, created = StoredObject.objects.get_or_create(
             container=request.user.username,
+            dirparent=directory,
             name=directory+filename,
             content_type="" if not mimetype[0] else mimetype[0],
             url=generate_share_url(
@@ -135,12 +150,17 @@ def create_directory(request):
     if not dir:
         raise Http404
     status = objectstore.create_directory(dir)
+    parent = ("/").join(dir.split("/")[:-1])
     if status == 201: # TODO: see if there's a module for all these
                       # magic numbers.
-        StoredObject(
+        obj, created = StoredObject.objects.get_or_create(
+            is_subdir=parent != "",
             container=request.user.username,
+            dirparent=parent,
             name=dir,
             content_type="application/directory"
-        ).save()
+        )
+        if created:
+            obj.save()
         return HttpResponse(simplejson.dumps({"status": status}))
     raise HttpResponseServerError

@@ -1,6 +1,8 @@
 from django.db import models
 
 class StoredObject(models.Model):
+    is_subdir = models.BooleanField()
+    dirparent = models.CharField(max_length=250)
     container = models.CharField(max_length=250)
     name = models.CharField(max_length=250)
     url = models.URLField(max_length=1000)
