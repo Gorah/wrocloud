@@ -65,6 +65,7 @@ def userpage(request, directory=None):
     return render_to_response(
         "userpage.html",
         {
+            "show_file_upload": bool(directory),
             "tenant_id": settings.TENANT_ID,
             "signature": generate_form_post_key(user_id, full_uri),
             "redirect_url":  full_uri,
