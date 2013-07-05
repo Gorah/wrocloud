@@ -59,11 +59,11 @@ def userpage(request, directory=None):
     user_id = settings.OBJECT_STORE_CONTAINER
     if directory:
         stuff = StoredObject.objects.filter(
-            container=user_id, name__startswith=directory + "/"
+            container=request.user.username, name__startswith=directory + "/"
         )
     else:
         stuff = StoredObject.objects.filter(
-            container=user_id, content_type="application/directory"
+            container=request.user.username, content_type="application/directory"
         )
     user_id += "/" + directory if directory else ""
     full_uri = request.build_absolute_uri(
@@ -100,14 +100,16 @@ def stored(request, directory=None):
         filename = ntpath.split(urllib.unquote(filename_unclean).decode("utf8"))[-1]
         mimetype = mimetypes.guess_type(filename)
         # Disgusting crap ends here ------
-        StoredObject.get_or_create(
-            container=settings.OBJECT_STORE_CONTAINER,
+        obj, created = StoredObject.objects.get_or_create(
+            container=request.user.username,
             name=directory+filename,
             content_type="" if not mimetype[0] else mimetype[0],
             url=generate_share_url(
                 "%s/%s" % (settings.OBJECT_STORE_CONTAINER, directory+filename)
             )
-        ).save()
+        )
+        if created:
+            obj.save()
         return HttpResponseRedirect("/success_upload/")
     else:
         return HttpResponseRedirect("/fail_upload/?=" + request.GET.get('message'))
@@ -136,7 +138,7 @@ def create_directory(request):
     if status == 201: # TODO: see if there's a module for all these
                       # magic numbers.
         StoredObject(
-            container=settings.OBJECT_STORE_CONTAINER,
+            container=request.user.username,
             name=dir,
             content_type="application/directory"
         ).save()
