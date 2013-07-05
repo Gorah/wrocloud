@@ -22,6 +22,7 @@ from wrocloud.objectstore.models import StoredObject
 
 
 
+
 def userlogin(request):
     '''Logs user in or redirects to a page with error message'''
     username = request.POST['username']
@@ -40,10 +41,12 @@ def userlogin(request):
                                   {"msg": 'Error: invalid login!'},
                                   RequestContext(request))
 
+    
 def userlogout(request):
     '''Logs user out and redirects to main page'''
     logout(request)
     return HttpResponseRedirect("/")
+
 
 @ensure_csrf_cookie
 @login_required
