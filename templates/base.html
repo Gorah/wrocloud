@@ -40,8 +40,8 @@
             </ul>
             <form action="/login/" method="POST" class="navbar-form pull-right">
               {% csrf_token %}
-              <input class="span2" type="text" placeholder="Email">
-              <input class="span2" type="password" placeholder="Password">
+              <input id="userID" class="span2" type="text" placeholder="Email">
+              <input id="userPassword"class="span2" type="password" placeholder="Password">
               <button type="submit" class="btn">Sign in</button>
             </form>
           </div><!--/.nav-collapse -->

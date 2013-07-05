@@ -19,9 +19,23 @@ from django_hpcloud.authentication import (generate_form_post_key,
 from wrocloud.objectstore.models import StoredObject
 
 
-def login(request):
-    # TODO: @gorah should implement this.
-    return HttpResponseRedirect("/user/")
+def login(request, err_msg=None):
+    username = request.POST['userID']
+    password = request.POST['userPassword']
+    user = authenticate(username=username, password=password)
+    if user is not None:
+        if user.is_active:
+            login(request, user)
+            return HttpResponseRedirect("/user/")
+        else:
+            return render_to_response("auth_error.html",
+                                      {"msg": 'Error: User disabled!'},
+                                      RequestContext(request))
+    else:
+        return render_to_response("auth_error.html",
+                                      {"msg": 'Error: invalid login!'},
+                                      RequestContext(request))
+    
 
 @ensure_csrf_cookie
 def userpage(request, directory=None):
