@@ -8,6 +8,7 @@ from django.http import (HttpResponseRedirect, HttpResponse, Http404,
                          HttpResponseServerError)
 from django.conf import settings
 from django.contrib.auth import authenticate, login
+from django.contrib.auth.decorators import login_required
 from django.shortcuts import render_to_response
 from django.template import RequestContext
 from django.views.decorators.csrf import ensure_csrf_cookie
@@ -39,6 +40,7 @@ def userlogin(request):
     
 
 @ensure_csrf_cookie
+@login_required
 def userpage(request, directory=None):
     '''userpage serves up the base page for the lists of containers and
     the files that they contain.
@@ -75,6 +77,7 @@ def userpage(request, directory=None):
         },
         RequestContext(request))
 
+@login_required
 def stored(request, directory=None):
     '''Stored is the endpoint which is redirected to when we've uploaded a
     new file into the Object Store via a Form Post. The underlying HPCloud
@@ -113,6 +116,7 @@ def direct_to_template(request, template=None, **kwargs):
         template, {"success": kwargs.get('success')},
         RequestContext(request))
 
+@login_required
 def create_directory(request):
     '''Create directory will funnily enough create a new directory in the
     HPCloud ObjectStore. The resulting directory will be 'invisible'
