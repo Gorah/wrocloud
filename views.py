@@ -34,8 +34,8 @@ def userlogin(request):
                                       RequestContext(request))
     else:
         return render_to_response("auth_error.html",
-                                      {"msg": 'Error: invalid login!'},
-                                      RequestContext(request))
+                                  {"msg": 'Error: invalid login!'},
+                                  RequestContext(request))
     
 
 @ensure_csrf_cookie
