@@ -22,13 +22,11 @@ class KeyValue(models.Model):
 
 class MyUserManager(BaseUserManager):
 
-    def create_user(self, *args, **kwargs):
+    def create_user(self, email, first_name, last_name,
+                    password=None):
         """
         Creates and saves a User with the given email, name  and password.
         """
-        print args
-        print kwargs
-        
         if not email:
             raise ValueError('Users must have an email address')
 
@@ -62,7 +60,7 @@ class MyUserManager(BaseUserManager):
         if not last_name:
             raise ValueError('Users must have a last name')
         
-        user = self.create_user(email,
+        user = self.create_user(email, first_name, last_name,
             password=password,
         )
         user.first_name = first_name
