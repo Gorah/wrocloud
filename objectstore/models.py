@@ -59,7 +59,7 @@ class MyUserManager(BaseUserManager):
 
         if not last_name:
             raise ValueError('Users must have a last name')
-        
+
         user = self.create_user(email, first_name, last_name,
             password=password,
         )
@@ -97,6 +97,7 @@ class MyUser(AbstractBaseUser):
         return self.email
 
     def has_perm(self, perm, obj=None):
+        #to implement permissions
         return True
 
     @property
