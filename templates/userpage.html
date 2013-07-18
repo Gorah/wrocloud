@@ -1,5 +1,8 @@
 {% extends "base.html" %}
 
+{% block navbar_extra %}
+<li class="pull-right"><a href="/logout/">Sign out</a></li>
+{% endblock navbar_extra %}
 {% block content %}
 {% load hpcloud %}
 <div class="container">

@@ -20,4 +20,5 @@ urlpatterns = patterns(
     url(r'^user/(?P<directory>.+)?$', views.userpage),
     url(r'^create_directory/?$', views.create_directory),
     url(r'^admin/', include(admin.site.urls)),
+    url(r'^logout/', views.userlogout),
     )
